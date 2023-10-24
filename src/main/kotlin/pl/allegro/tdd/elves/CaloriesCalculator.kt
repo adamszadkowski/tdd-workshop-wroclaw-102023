@@ -3,7 +3,7 @@ package pl.allegro.tdd.elves
 class CaloriesCalculator(
     private val contentProvider: ContentProvider,
 ) {
-    fun calculate(): List<Int> =
+    fun findTopCalories(): Int =
         contentProvider.provide()
             .split("\n\n")
             .filter { it.isNotEmpty() }
@@ -13,5 +13,5 @@ class CaloriesCalculator(
                     .mapNotNull { it.toIntOrNull() }
                     .sumOf { it }
             }
-            .sortedDescending()
+            .maxOf { it }
 }

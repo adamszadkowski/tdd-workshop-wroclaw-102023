@@ -3,7 +3,7 @@ package pl.allegro.tdd.elves
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.isEqualTo
 
 class CaloriesCalculatorTest {
     private var content: String = ""
@@ -11,7 +11,7 @@ class CaloriesCalculatorTest {
 
     @Test
     fun `no items`() {
-        expectThat(calculator.calculate()).isEmpty()
+        expectThat(calculator.findTopCalories()).isEqualTo(0)
     }
 
     @Nested
@@ -21,7 +21,7 @@ class CaloriesCalculatorTest {
         fun `single item`() {
             content = "1"
 
-            expectThat(calculator.calculate()).containsExactly(1)
+            expectThat(calculator.findTopCalories()).isEqualTo(1)
         }
 
         @Test
@@ -31,7 +31,7 @@ class CaloriesCalculatorTest {
                 2
             """.trimIndent()
 
-            expectThat(calculator.calculate()).containsExactly(3)
+            expectThat(calculator.findTopCalories()).isEqualTo(3)
         }
     }
 
@@ -46,7 +46,7 @@ class CaloriesCalculatorTest {
                 2
             """.trimIndent()
 
-            expectThat(calculator.calculate()).containsExactlyInAnyOrder(1, 2)
+            expectThat(calculator.findTopCalories()).isEqualTo(2)
         }
 
         @Test
@@ -59,24 +59,7 @@ class CaloriesCalculatorTest {
                 5
             """.trimIndent()
 
-            expectThat(calculator.calculate()).containsExactlyInAnyOrder(3, 8)
-        }
-    }
-
-    @Nested
-    inner class `calories ordering` {
-
-        @Test
-        fun `order descending by calories`() {
-            content = """
-                1
-                2
-
-                3
-                5
-            """.trimIndent()
-
-            expectThat(calculator.calculate()).first().isEqualTo(8)
+            expectThat(calculator.findTopCalories()).isEqualTo(8)
         }
     }
 }
