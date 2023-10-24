@@ -7,11 +7,11 @@ class CaloriesCalculator(
         contentProvider.provide()
             .split("\n\n")
             .filter { it.isNotEmpty() }
-            .map { singleElf ->
+            .maxOfOrNull { singleElf ->
                 singleElf
                     .split("\n")
                     .mapNotNull { it.toIntOrNull() }
                     .sumOf { it }
-            }
-            .maxOf { it }
+            } ?: 0
+
 }
