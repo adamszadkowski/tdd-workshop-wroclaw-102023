@@ -1,5 +1,6 @@
 package pl.allegro.tdd.domain
 
+import pl.allegro.tdd.domain.model.InvalidMessageException
 import java.util.concurrent.atomic.AtomicReference
 
 class GreetingService {
@@ -9,5 +10,8 @@ class GreetingService {
         message.get()
 
     fun updateGreeting(message: String): String =
-        this.message.updateAndGet { message }
+        when (message.length) {
+            !in 1..99 -> throw InvalidMessageException()
+            else -> this.message.updateAndGet { message }
+        }
 }

@@ -38,4 +38,14 @@ class GreetingEndpointTest(
             content { json(""" { "message": "updated message" } """) }
         }
     }
+
+    @Test
+    fun `fail to update greeting`() {
+        mockMvc.put("/greeting") {
+            contentType = MediaType.APPLICATION_JSON
+            content = """ { "message": "" } """
+        }.andExpect {
+            status { isBadRequest() }
+        }
+    }
 }
